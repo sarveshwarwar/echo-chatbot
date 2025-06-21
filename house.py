@@ -1,5 +1,5 @@
-import streamlit as st # type: ignore
-import matplotlib.pyplot as plt # type: ignore
+import streamlit as st
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
@@ -7,11 +7,11 @@ import random
 
 # --- Dummy Training Data (for demo) ---
 X_train = np.array([
-    [1200, 3, 2, 2005, 5000, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0],  # [sqft, bedrooms, bathrooms, year, lot, garage, city1, city2, city3, floors, pool, garden, style1, style2, style3]
-    [1500, 4, 3, 2010, 6000, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0],
-    [800, 2, 1, 1995, 3000, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-    [2000, 5, 4, 2018, 8000, 1, 0, 0, 1, 3, 1, 1, 0, 0, 1],
-    [1000, 2, 2, 2000, 4000, 0, 1, 0, 0, 2, 0, 0, 1, 0, 0]
+    [1200, 3, 2, 2005, 5000, 1, 2, 1, 0, 0, 1, 0, 0, 0, 0],  # [sqft, bedrooms, bathrooms, year, lot, garage, floors, city1, city2, city3, pool, garden, style1, style2, style3]
+    [1500, 4, 3, 2010, 6000, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0],
+    [800, 2, 1, 1995, 3000, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
+    [2000, 5, 4, 2018, 8000, 1, 3, 0, 0, 1, 1, 1, 0, 0, 1],
+    [1000, 2, 2, 2000, 4000, 0, 2, 1, 0, 0, 0, 0, 1, 0, 0]
 ])
 y_train = np.array([120000, 180000, 90000, 250000, 110000])
 model = LinearRegression().fit(X_train, y_train)
@@ -82,7 +82,7 @@ if "favorites" not in st.session_state:
     st.session_state.favorites = []
 
 if st.button("🔮 Predict Price"):
-    features = np.array([[sqft, bedrooms, bathrooms, year, lot, garage_val, city1, city2, city3, floors, pool_val, garden_val, style1, style2, style3]])
+    features = np.array([[sqft, bedrooms, bathrooms, year, lot, garage_val, floors, city1, city2, city3, pool_val, garden_val, style1, style2, style3]])
     price = model.predict(features)[0]
     ci_low = price * 0.95
     ci_high = price * 1.05
@@ -137,7 +137,7 @@ if st.button("🔮 Predict Price"):
 
     # --- Feature Importance ---
     st.markdown("### 📊 Feature Importance (Demo)")
-    feature_names = ["sqft", "bed", "bath", "year", "lot", "garage", "city1", "city2", "city3", "floors", "pool", "garden", "style1", "style2", "style3"]
+    feature_names = ["sqft", "bed", "bath", "year", "lot", "garage", "floors", "city1", "city2", "city3", "pool", "garden", "style1", "style2", "style3"]
     fig, ax = plt.subplots(figsize=(8,2))
     ax.barh(feature_names, model.coef_, color="#ff7043")
     ax.set_xlabel("Importance")
